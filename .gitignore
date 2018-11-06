@@ -1,0 +1,6 @@
+*.py[cod]    # will match .pyc, .pyo and .pyd files
+.env         # exclude the whole folder
+
+*.h5 #model files
+
+/data/glove.twitter.27B
