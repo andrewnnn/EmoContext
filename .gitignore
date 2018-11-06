@@ -4,3 +4,7 @@
 *.h5 #model files
 
 /data/glove.twitter.27B
+
+*.zip
+
+data/NRC-Emotion-Lexicon-Wordlevel-v0.92.txt
