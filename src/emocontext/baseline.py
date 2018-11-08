@@ -1,5 +1,11 @@
 #Please use python 3.5 or above
 import numpy as np
+import json, argparse, os
+import re
+import io
+import sys
+from datetime import datetime
+
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from keras.utils import to_categorical
@@ -7,10 +13,6 @@ from keras.models import Sequential
 from keras.layers import Dense, Embedding, LSTM
 from keras import optimizers
 from keras.models import load_model
-import json, argparse, os
-import re
-import io
-import sys
 
 # Path to training and testing data file. This data can be downloaded from a link, details of which will be provided.
 trainDataPath = ""
@@ -73,8 +75,9 @@ def preprocessData(dataFilePath, mode):
                 label = emotion2label[line[4]]
                 labels.append(label)
 
-            conv = ' <eos> '.join(line[1:4])
-
+            # conv = ' <eos> '.join(line[1:4])
+            conv = ' <eos> '.join([line[1], line[3]])
+	
             # Remove any duplicate spaces
             duplicateSpacePattern = re.compile(r'\ +')
             conv = re.sub(duplicateSpacePattern, ' ', conv)
@@ -349,4 +352,10 @@ def main():
 
 
 if __name__ == '__main__':
+    startTime = datetime.now()
+    print("Start time:", startTime)
     main()
+    endTime = datetime.now()
+    print("End time:", endTime)
+    execTime = endTime - startTime
+    print("Time of execution: %d seconds"%(execTime.seconds))
