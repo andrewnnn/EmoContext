@@ -48,26 +48,17 @@ def preprocessData(dataFilePath, mode):
     indices = []
     conversations = []
     labels = []
+    tweetTkr = TweetTokenizer(preserve_case=False)
     with io.open(dataFilePath, encoding="utf8") as finput:
         finput.readline()
         for line in finput:
-            # Convert multiple instances of . ? ! , to single instance
-            # okay...sure -> okay . sure
-            # okay???sure -> okay ? sure
-            # Add whitespace around such punctuation
-            # okay!sure -> okay ! sure
-            repeatedChars = ['.', '?', '!', ',']
-            for c in repeatedChars:
-                lineSplit = line.split(c)
-                while True:
-                    try:
-                        lineSplit.remove('')
-                    except:
-                        break
-                cSpace = ' ' + c + ' '
-                line = cSpace.join(lineSplit)
-
             line = line.strip().split('\t')
+
+            # Preprocess sents turns
+            line[1] = " ".join(tweetTkr.tokenize(line[1]))
+            line[2] = " ".join(tweetTkr.tokenize(line[2]))
+            line[3] = " ".join(tweetTkr.tokenize(line[3]))
+
             if mode == "train":
                 # Train data contains id, 3 turns and label
                 label = emotion2label[line[4]]
@@ -265,7 +256,7 @@ def main():
     # writeNormalisedData(testDataPath, testTexts)
 
     print("Extracting tokens...")
-    tokenizer = Tokenizer(num_words=MAX_NB_WORDS)
+    tokenizer = Tokenizer(num_words=MAX_NB_WORDS, filters='')
     tokenizer.fit_on_texts(trainTexts)
     trainSequences = tokenizer.texts_to_sequences(trainTexts)
     testSequences = tokenizer.texts_to_sequences(testTexts)
