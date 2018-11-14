@@ -1,12 +1,17 @@
 *.py[cod]    # will match .pyc, .pyo and .pyd files
 .env         # exclude the whole folder
 
-*.h5 #model files
-*.zip
+*.h5
 
-data/NRC-Emotion-Lexicon-Wordlevel-v0.92.txt
 data/submissions/
-/data/glove.twitter.27B
+/data/test.txt
+data/glove.twitter.27B
+data/NRC-Emotion-Lexicon-Wordlevel-v0.92.txt
+
+*.zip
 
 **/.ipynb_checkpoints/
 *.ipynb
+
+outlogs/
+*.out
